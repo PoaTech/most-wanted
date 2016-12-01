@@ -277,7 +277,12 @@ printAllToConsole(dataObject);
 */
 
 function initSearch(){
+<<<<<<< HEAD
 	alert("Hello World");
+=======
+	alert("No One Can Hide");
+
+>>>>>>> 26504bf570c1ede96b418875729bdcb37fff06db
 	// get all the information you need to run the search
 	var yourName = prompt("Who do you want to search for?");
 
