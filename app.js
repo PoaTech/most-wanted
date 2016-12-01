@@ -277,7 +277,7 @@ printAllToConsole(dataObject);
 */
 
 function initSearch(){
-	alert("Hello World");
+	alert("No One Can Hide");
 
 	// get all the information you need to run the search
 	var yourName = prompt("Who do you want to search for?");
