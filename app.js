@@ -280,7 +280,7 @@ function initSearch(){
 
 	alert("No One Can Hide");
 	// get all the information you need to run the search
-	var yourName = prompt("Who do you want to search for?");
+	var yourName = prompt("Enter target name");
 
 	// then pass that info to the respective function.
 	var result = getPersonInfo("Joey", "Madden");
