@@ -292,6 +292,7 @@ function initSearch(){
 	responder("Target's descendants:", children);
 
 	var family = getFamily(id, getPersonName, getIndexFromId, getChildren, getSpouse, getParents);
+	console.log(family.join("\n"));
 	responder("Target's Family:", family)
 }
 
@@ -331,11 +332,11 @@ function getInfo(id, keyName, personName, checkNull, personIndex, findParents) {
 			var parents = findParents(id)
 			data = "";
 			for (var parent in parents) {
-				if (parent == 1) {
-					data += personName(personIndex(parents[parent])) + ", ";
+				if (parent == 0 && parents.length == 2) {
+					data += personName(parents[parent]) + ", ";
 				}
 				else {
-					data += personName(personIndex(parents[parent]));
+					data += personName(parents[parent]);
 				}
 			}
 		}
@@ -448,7 +449,7 @@ function getParents(id) {
 	for (var parent in dataObject[id].parents) {
 		for (var person in dataObject) {
 			if (dataObject[person].id == dataObject[id].parents[parent]) {
-				parents.push(person)
+				parents.push(person);
 			}
 		}
 	}
