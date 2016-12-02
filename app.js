@@ -265,7 +265,7 @@ var dataObject = {
 	}
 };
 
-/*  Remove this from your final submission
+/* Remove this from your final submission
 function printAllToConsole(dataObj){
 	for (var key in dataObj) {
 		if (dataObj.hasOwnProperty(key)) {
@@ -280,7 +280,7 @@ function initSearch(){
 
 	alert("No One Can Hide");
 	// get all the information you need to run the search
-	var yourName = prompt("Enter target name below:");
+	var yourName = prompt("Enter target name");
 
 	// then pass that info to the respective function.
 	var result = getPersonInfo("Joey", "Madden");
@@ -295,7 +295,11 @@ function responder(results){
 }
 
 function getPersonInfo(firstname, lastname){
-	var result = dataObject[0];
+	for (var person in dataObject) {
+		var correctPerson = (dataObject[person].firstName.toLowerCase() == firstname.toLowerCase() && dataObject[person].lastName.toLowerCase() == lastname.toLowerCase());
+		console.log(correctPerson);
+	}
+	var result = "Fail.";
 	return result;
 }
 
