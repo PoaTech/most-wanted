@@ -389,7 +389,8 @@ function getKeyString(key) {
 				return "";
 	}
 }
- function getIndexFromId(id) {
+
+function getIndexFromId(id) {
 	 for (var person in dataObject) {
 		 if (dataObject[person].id == id) {
 			 return person;
@@ -397,14 +398,18 @@ function getKeyString(key) {
 	 }
 	 return null;
  }
+
 function getDescendants(index, personName, totalDescendants) {
 	for (var person in dataObject) {
 		for (var parent in dataObject[person].parents) {
 			if (dataObject[index].id == dataObject[person].parents[parent]) {
 				totalDescendants.push(personName(person));
-				getDescendants(person, personName, totalDescendants)
+				getDescendants(person, personName, totalDescendants);
 			}
 		}
+	}
+	if (totalDescendants.length == 0) {
+		totalDescendants.push("None");
 	}
 	return totalDescendants;
 }
@@ -415,14 +420,20 @@ function getFamily(id, personName, personIndex, findChildren, findSpouse, findPa
 	var spouse = findSpouse(id, personIndex);
 	var parents = findParents(id);
 
-	for (var child in children) {
-		family.push(children[child]);
+	if (children != null) {
+		for (var child in children) {
+			family.push(children[child]);
+		}
 	}
 
-	family.push(spouse);
+	if (spouse != null) {
+		family.push(spouse);
+	}
 
-	for (var parent in parents) {
-		family.push(parents[parent]);
+	if (parents != null) {
+		for (var parent in parents) {
+			family.push(parents[parent]);
+		}
 	}
 
 	return family.map(personName);
