@@ -283,18 +283,21 @@ function initSearch(){
 
 	var id = getPersonID(name[0], name[1]);
 
-  var info = getInfo(id, getKeyString, getPersonName, checkIfNull, getIndexFromId);
+  var info = getInfo(id, getKeyString, getPersonName, checkIfNull, getIndexFromId, getParents);
 
-	responder("Target Info", info);
+	responder("Target Info:", info);
   var descendants = [];
 	var children = getDescendants(id, getPersonName, descendants);
 
-	responder("Target's descendants", children);
+	responder("Target's descendants:", children);
+
+	var family = getFamily(id, getPersonName, getIndexFromId, getChildren, getSpouse, getParents);
+	responder("Target's Family:", family)
 }
 
-function responder(title,info){
+function responder(title, info){
 	// results may be a list of strings, an object, or a single string.
-	alert(title + "\n" + info.join("\n"));
+	alert(title + "\n\n" + info.join("\n"));
 }
 
 function splitName(yourName) {
@@ -313,7 +316,10 @@ function getPersonID(firstname, lastname){
 }
 
 function getPersonName(id) {
-	return dataObject[id].firstName + " " + dataObject[id].lastName;
+	if (id != undefined) {
+	 return dataObject[id].firstName + " " + dataObject[id].lastName;
+	}
+	return null;
 }
 
 function getInfo(id, keyName, personName, checkNull, personIndex, findParents) {
@@ -322,7 +328,7 @@ function getInfo(id, keyName, personName, checkNull, personIndex, findParents) {
 
 	for(var key in dataObject[id]) {
 		if (key == "parents") {
-			var parents = parents(id)
+			var parents = findParents(id)
 			data = "";
 			for (var parent in parents) {
 				if (parent == 1) {
@@ -402,15 +408,30 @@ function getDescendants(index, personName, totalDescendants) {
 	return totalDescendants;
 }
 
-function getFamily(){
-	// return list of names of immediate family members
+function getFamily(id, personName, personIndex, findChildren, findSpouse, findParents){
+	var family = [];
+	var children = findChildren(id);
+	var spouse = findSpouse(id, personIndex);
+	var parents = findParents(id);
+
+	for (var child in children) {
+		family.push(children[child]);
+	}
+
+	family.push(spouse);
+
+	for (var parent in parents) {
+		family.push(parents[parent]);
+	}
+
+	return family.map(personName);
 }
 
 function getChildren(id) {
 	var children = [];
 	for (var person in dataObject) {
 		for (var parent in dataObject[person].parents) {
-			if (dataObject[index].id == dataObject[person].parents[parent]) {
+			if (dataObject[id].id == dataObject[person].parents[parent]) {
 				children.push(person);
 			}
 		}
