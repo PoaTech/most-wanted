@@ -285,16 +285,16 @@ function initSearch(){
 
   var info = getInfo(id, getKeyString, getPersonName, checkIfNull, getIndexFromId);
 
-	responder(info);
+	responder("Target Info", info);
   var descendants = [];
 	var children = getDescendants(id, getPersonName, descendants);
 
-	responder(children);
+	responder("Target's descendants", children);
 }
 
-function responder(info){
+function responder(title,info){
 	// results may be a list of strings, an object, or a single string.
-	alert(info.join("\n"));
+	alert(title + "\n" + info.join("\n"));
 }
 
 function splitName(yourName) {
@@ -316,23 +316,25 @@ function getPersonName(id) {
 	return dataObject[id].firstName + " " + dataObject[id].lastName;
 }
 
-function getInfo(id, keyName, personName, checkNull, parentIndex) {
+function getInfo(id, keyName, personName, checkNull, personIndex, findParents) {
 	var personInfo = [];
 	var data;
 
 	for(var key in dataObject[id]) {
 		if (key == "parents") {
+			var parents = parents(id)
 			data = "";
-			for (i = 0; i < dataObject[id][key].length; i++) {
-				data += personName(parentIndex(dataObject[id][key][i]));
-				if (i < dataObject[id][key].length - 1) {
-					data += ", ";
+			for (var parent in parents) {
+				if (parent == 1) {
+					data += personName(personIndex(parents[parent])) + ", ";
+				}
+				else {
+					data += personName(personIndex(parents[parent]));
 				}
 			}
 		}
 		else if (key == "currentSpouse"){
-			data = "";
-			data += personName(parentIndex(dataObject[id][key]));			
+			data = personName(personIndex(dataObject[id][key]));
 		}
 		else {
 			data = dataObject[id][key];
@@ -404,6 +406,33 @@ function getFamily(){
 	// return list of names of immediate family members
 }
 
+function getChildren(id) {
+	var children = [];
+	for (var person in dataObject) {
+		for (var parent in dataObject[person].parents) {
+			if (dataObject[index].id == dataObject[person].parents[parent]) {
+				children.push(person);
+			}
+		}
+	}
+	return children;
+}
+
+function getSpouse(id, personIndex) {
+	return personIndex(dataObject[id].currentSpouse);
+}
+
+function getParents(id) {
+	var parents = [];
+	for (var parent in dataObject[id].parents) {
+		for (var person in dataObject) {
+			if (dataObject[person].id == dataObject[id].parents[parent]) {
+				parents.push(person)
+			}
+		}
+	}
+	return parents;
+}
 // there will be much more here, and some of the code above will certainly change
 
 initSearch();
