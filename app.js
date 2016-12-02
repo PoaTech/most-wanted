@@ -281,28 +281,42 @@ function initSearch(){
 	alert("No One Can Hide");
 	// get all the information you need to run the search
 	var yourName = prompt("Enter target name");
-
+  var name = splitName(yourName);
 	// then pass that info to the respective function.
-	var result = getPersonInfo("Joey", "Madden");
-
+	var id = getPersonID(name[0], name[1]);
+  var info = getInfo(id);
 	// once the search is done, pass the results to the responder function
-	responder(result);
+	responder(info);
 }
 
-function responder(results){
+function responder(id){
 	// results may be a list of strings, an object, or a single string.
-	alert(results);
+	alert(JSON.stringify(dataObject[id]));
 }
 
-function getPersonInfo(firstname, lastname){
-	for (var person in dataObject) {
-		var correctPerson = (dataObject[person].firstName.toLowerCase() == firstname.toLowerCase() && dataObject[person].lastName.toLowerCase() == lastname.toLowerCase());
-		console.log(correctPerson);
+function splitName(yourName) {
+	if (yourName != null) {
+		var name = yourName.split(" ");
+		return name;
 	}
-	var result = "Fail.";
-	return result;
 }
 
+function getPersonID(firstname, lastname){
+	for (var person in dataObject) {
+		if (dataObject[person].firstName.toLowerCase() == firstname.toLowerCase() && dataObject[person].lastName.toLowerCase() == lastname.toLowerCase()) {
+			return person;
+		}
+	}
+}
+
+function getInfo(id) {
+	var personInfo = [];
+	for(var key in dataObject[id]) {
+	   personInfo.push(key + ": " + dataObject[id][key]);
+		 console.log(key + ": " + dataObject[id][key]);
+	}
+	return personInfo;
+}
 function getFamily(){
 	// return list of names of immediate family members
 }
@@ -310,4 +324,3 @@ function getFamily(){
 // there will be much more here, and some of the code above will certainly change
 
 initSearch();
-//window.close(); // exit window as the end of the session -- you may remove this
