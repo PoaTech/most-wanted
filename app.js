@@ -405,6 +405,20 @@ function getFamily(){
 	// return list of names of immediate family members
 }
 
+<<<<<<< HEAD
 // there will be much more here, and some of the code above will certainly change
+=======
+function getParents(id) {
+	var parents = [];
+	for (var parent in dataObject[id].parents) {
+		for (var person in dataObject) {
+			if (dataObject[person].id == dataObject[id].parents[parent]) {
+				parents.push(person)
+			}
+		}
+	}
+	return parents;
+}
+>>>>>>> 7f3615d20ab8f9499ab0def77091a9ecd209f695
 
 initSearch();
