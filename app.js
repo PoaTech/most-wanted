@@ -286,6 +286,10 @@ function initSearch(){
   var info = getInfo(id, getKeyString, getPersonName, checkIfNull, getIndexFromId);
 
 	responder(info);
+  var descendants = [];
+	var children = getDescendants(id, getPersonName, descendants);
+
+	responder(children);
 }
 
 function responder(info){
@@ -303,14 +307,12 @@ function splitName(yourName) {
 function getPersonID(firstname, lastname){
 	for (var person in dataObject) {
 		if (dataObject[person].firstName.toLowerCase() == firstname.toLowerCase() && dataObject[person].lastName.toLowerCase() == lastname.toLowerCase()) {
-			console.log(person);
 			return person;
 		}
 	}
 }
 
 function getPersonName(id) {
-	console.log(id);
 	return dataObject[id].firstName + " " + dataObject[id].lastName;
 }
 
@@ -382,10 +384,16 @@ function getKeyString(key) {
 	 }
 	 return null;
  }
-function getDescendants(index) {
+function getDescendants(index, personName, totalDescendants) {
 	for (var person in dataObject) {
-		console.log(dataObject[person].parents);
+		for (var parent in dataObject[person].parents) {
+			if (dataObject[index].id == dataObject[person].parents[parent]) {
+				totalDescendants.push(personName(person));
+				getDescendants(person, personName, totalDescendants)
+			}
+		}
 	}
+	return totalDescendants;
 }
 
 function getFamily(){
