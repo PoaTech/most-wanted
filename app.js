@@ -284,14 +284,16 @@ function initSearch(){
   var name = splitName(yourName);
 	// then pass that info to the respective function.
 	var id = getPersonID(name[0], name[1]);
-  var info = getInfo(id);
+	var keyName = getKeyString;
+	var personName = getPersonName;
+  var info = getInfo(id, keyName, personName);
 	// once the search is done, pass the results to the responder function
 	responder(info);
 }
 
-function responder(id){
+function responder(info){
 	// results may be a list of strings, an object, or a single string.
-	alert(JSON.stringify(dataObject[id]));
+	alert(info.join("\n"));
 }
 
 function splitName(yourName) {
@@ -309,14 +311,47 @@ function getPersonID(firstname, lastname){
 	}
 }
 
-function getInfo(id) {
+function getPersonName(id) {
+	return dataObject[id].firstName + " " + dataObject[id].lastName;
+}
+function getInfo(id, keyName, personName) {
 	var personInfo = [];
 	for(var key in dataObject[id]) {
-	   personInfo.push(key + ": " + dataObject[id][key]);
-		 console.log(key + ": " + dataObject[id][key]);
+		if (key == "parents") {
+			//for
+		}
+	   personInfo.push(keyName(key) + ": " + dataObject[id][key]);
 	}
 	return personInfo;
 }
+
+function getKeyString(key) {
+	switch (key) {
+		case "firstName":
+			return "First Name";
+		case "lastName":
+				return "Last Name";
+		case "gender":
+				return "Gender";
+		case "dob":
+				return "Date of Birth";
+		case "height":
+				return "Height";
+		case "weight":
+				return "Weight";
+		case "eyeColor":
+				return "Eye Color";
+		case "occupation":
+				return "Occupation";
+		case "parents":
+				return "Parents";
+		case "currentSpouse":
+				return "Current Spouse";
+		default:
+				return "";
+	}
+}
+
 function getFamily(){
 	// return list of names of immediate family members
 }
