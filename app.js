@@ -328,6 +328,10 @@ function getInfo(id, keyName, personName, checkNull, parentIndex) {
 				}
 			}
 		}
+		else if (key == "currentSpouse"){
+			data = "";
+			data += personName(parentIndex(dataObject[id][key]));			
+		}
 		else {
 			data = dataObject[id][key];
 		}
