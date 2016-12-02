@@ -282,8 +282,8 @@ function initSearch(){
   var name = splitName(prompt("Enter target name"));
 
 	var id = getPersonID(name[0], name[1]);
-	
-  var info = getInfo(id, getKeyString, getPersonName, checkIfNull);
+
+  var info = getInfo(id, getKeyString, getPersonName, checkIfNull, getIndexFromId);
 
 	responder(info);
 }
@@ -303,16 +303,18 @@ function splitName(yourName) {
 function getPersonID(firstname, lastname){
 	for (var person in dataObject) {
 		if (dataObject[person].firstName.toLowerCase() == firstname.toLowerCase() && dataObject[person].lastName.toLowerCase() == lastname.toLowerCase()) {
+			console.log(person);
 			return person;
 		}
 	}
 }
 
 function getPersonName(id) {
+	console.log(id);
 	return dataObject[id].firstName + " " + dataObject[id].lastName;
 }
 
-function getInfo(id, keyName, personName, checkNull) {
+function getInfo(id, keyName, personName, checkNull, parentIndex) {
 	var personInfo = [];
 	var data;
 
@@ -320,7 +322,7 @@ function getInfo(id, keyName, personName, checkNull) {
 		if (key == "parents") {
 			data = "";
 			for (i = 0; i < dataObject[id][key].length; i++) {
-				data += personName(dataObject[id][key][i]);
+				data += personName(parentIndex(dataObject[id][key][i]));
 				if (i < dataObject[id][key].length - 1) {
 					data += ", ";
 				}
@@ -372,8 +374,15 @@ function getKeyString(key) {
 				return "";
 	}
 }
-
-function getDescendants(id) {
+ function getIndexFromId(id) {
+	 for (var person in dataObject) {
+		 if (dataObject[person].id == id) {
+			 return person;
+		 }
+	 }
+	 return null;
+ }
+function getDescendants(index) {
 	for (var person in dataObject) {
 		console.log(dataObject[person].parents);
 	}
