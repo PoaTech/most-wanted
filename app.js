@@ -1,5 +1,5 @@
 var dataObject = {
-	"272822514" : {
+	{ "id": "272822514"
 	  "firstName": "Billy",
 	  "lastName": "Bob",
 	  "gender": "male",
@@ -277,18 +277,14 @@ printAllToConsole(dataObject);
 */
 
 function initSearch(){
-
 	alert("No One Can Hide");
-	// get all the information you need to run the search
-	var yourName = prompt("Enter target name");
-  var name = splitName(yourName);
-	// then pass that info to the respective function.
+
+  var name = splitName(prompt("Enter target name"));
+
 	var id = getPersonID(name[0], name[1]);
-	var keyName = getKeyString;
-	var personName = getPersonName;
-	var checkNull = checkIfNull;
-  var info = getInfo(id, keyName, personName);
-	// once the search is done, pass the results to the responder function
+
+  var info = getInfo(id, getKeyString, getPersonName, checkIfNull);
+
 	responder(info);
 }
 
@@ -315,23 +311,23 @@ function getPersonID(firstname, lastname){
 function getPersonName(id) {
 	return dataObject[id].firstName + " " + dataObject[id].lastName;
 }
+
 function getInfo(id, keyName, personName, checkNull) {
 	var personInfo = [];
 	var data;
 
 	for(var key in dataObject[id]) {
-		console.log(key);
 		if (key == "parents") {
 			data = "";
 			for (i = 0; i < dataObject[id][key].length; i++) {
 				data += personName(dataObject[id][key][i]);
 				if (i < dataObject[id][key].length - 1) {
-					data += ", "
+					data += ", ";
 				}
 			}
 		}
 		else {
-			data = dataObject[id][key]
+			data = dataObject[id][key];
 		}
 		data = checkNull(data);
 	  personInfo.push(keyName(key) + ": " + data);
@@ -347,8 +343,11 @@ function checkIfNull(data) {
 		return data;
 	}
 }
+
 function getKeyString(key) {
 	switch (key) {
+		case "id":
+			return "SSN";
 		case "firstName":
 			return "First Name";
 		case "lastName":
@@ -371,6 +370,12 @@ function getKeyString(key) {
 				return "Current Spouse";
 		default:
 				return "";
+	}
+}
+
+function getDescendants(id) {
+	for (var person in dataObject) {
+		console.log(dataObject[person].parents);
 	}
 }
 
