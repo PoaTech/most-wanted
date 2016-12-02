@@ -454,6 +454,5 @@ function getParents(id) {
 	}
 	return parents;
 }
-// there will be much more here, and some of the code above will certainly change
 
 initSearch();
