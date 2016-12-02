@@ -283,18 +283,21 @@ function initSearch(){
 
 	var id = getPersonID(name[0], name[1]);
 
-  var info = getInfo(id, getKeyString, getPersonName, checkIfNull, getIndexFromId);
+  var info = getInfo(id, getKeyString, getPersonName, checkIfNull, getIndexFromId, getParents);
 
-	responder(info);
+	responder("Target Info:", info);
   var descendants = [];
 	var children = getDescendants(id, getPersonName, descendants);
 
-	responder(children);
+	responder("Target's descendants:", children);
+
+	var family = getFamily(id, getPersonName, getIndexFromId, getChildren, getSpouse, getParents);
+	responder("Target's Family:", family)
 }
 
-function responder(info){
+function responder(title, info){
 	// results may be a list of strings, an object, or a single string.
-	alert(info.join("\n"));
+	alert(title + "\n\n" + info.join("\n"));
 }
 
 function splitName(yourName) {
@@ -313,26 +316,31 @@ function getPersonID(firstname, lastname){
 }
 
 function getPersonName(id) {
-	return dataObject[id].firstName + " " + dataObject[id].lastName;
+	if (id != undefined) {
+	 return dataObject[id].firstName + " " + dataObject[id].lastName;
+	}
+	return null;
 }
 
-function getInfo(id, keyName, personName, checkNull, parentIndex) {
+function getInfo(id, keyName, personName, checkNull, personIndex, findParents) {
 	var personInfo = [];
 	var data;
 
 	for(var key in dataObject[id]) {
 		if (key == "parents") {
+			var parents = findParents(id)
 			data = "";
-			for (i = 0; i < dataObject[id][key].length; i++) {
-				data += personName(parentIndex(dataObject[id][key][i]));
-				if (i < dataObject[id][key].length - 1) {
-					data += ", ";
+			for (var parent in parents) {
+				if (parent == 1) {
+					data += personName(personIndex(parents[parent])) + ", ";
+				}
+				else {
+					data += personName(personIndex(parents[parent]));
 				}
 			}
 		}
 		else if (key == "currentSpouse"){
-			data = "";
-			data += personName(parentIndex(dataObject[id][key]));
+			data = personName(personIndex(dataObject[id][key]));
 		}
 		else {
 			data = dataObject[id][key];
@@ -400,14 +408,41 @@ function getDescendants(index, personName, totalDescendants) {
 	return totalDescendants;
 }
 
-function getFamily(){
+function getFamily(id, personName, personIndex, findChildren, findSpouse, findParents){
+	var family = [];
+	var children = findChildren(id);
+	var spouse = findSpouse(id, personIndex);
+	var parents = findParents(id);
 
-	// return list of names of immediate family members
+	for (var child in children) {
+		family.push(children[child]);
+	}
+
+	family.push(spouse);
+
+	for (var parent in parents) {
+		family.push(parents[parent]);
+	}
+
+	return family.map(personName);
 }
 
-<<<<<<< HEAD
-// there will be much more here, and some of the code above will certainly change
-=======
+function getChildren(id) {
+	var children = [];
+	for (var person in dataObject) {
+		for (var parent in dataObject[person].parents) {
+			if (dataObject[id].id == dataObject[person].parents[parent]) {
+				children.push(person);
+			}
+		}
+	}
+	return children;
+}
+
+function getSpouse(id, personIndex) {
+	return personIndex(dataObject[id].currentSpouse);
+}
+
 function getParents(id) {
 	var parents = [];
 	for (var parent in dataObject[id].parents) {
@@ -419,6 +454,5 @@ function getParents(id) {
 	}
 	return parents;
 }
->>>>>>> 7f3615d20ab8f9499ab0def77091a9ecd209f695
 
 initSearch();
