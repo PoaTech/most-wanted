@@ -286,6 +286,7 @@ function initSearch(){
 	var id = getPersonID(name[0], name[1]);
 	var keyName = getKeyString;
 	var personName = getPersonName;
+	var checkNull = checkIfNull;
   var info = getInfo(id, keyName, personName);
 	// once the search is done, pass the results to the responder function
 	responder(info);
@@ -314,17 +315,38 @@ function getPersonID(firstname, lastname){
 function getPersonName(id) {
 	return dataObject[id].firstName + " " + dataObject[id].lastName;
 }
-function getInfo(id, keyName, personName) {
+function getInfo(id, keyName, personName, checkNull) {
 	var personInfo = [];
+	var data;
+
 	for(var key in dataObject[id]) {
+		console.log(key);
 		if (key == "parents") {
-			//for
+			data = "";
+			for (i = 0; i < dataObject[id][key].length; i++) {
+				data += personName(dataObject[id][key][i]);
+				if (i < dataObject[id][key].length - 1) {
+					data += ", "
+				}
+			}
 		}
-	   personInfo.push(keyName(key) + ": " + dataObject[id][key]);
+		else {
+			data = dataObject[id][key]
+		}
+		data = checkNull(data);
+	  personInfo.push(keyName(key) + ": " + data);
 	}
 	return personInfo;
 }
 
+function checkIfNull(data) {
+	if (data == null) {
+		return "None";
+	}
+	else {
+		return data;
+	}
+}
 function getKeyString(key) {
 	switch (key) {
 		case "firstName":
