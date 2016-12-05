@@ -264,30 +264,17 @@ var dataObject = [{
     "currentSpouse": null
 }];
 
-/* Remove this from your final submission
-function printAllToConsole(dataObj){
-	for (var key in dataObj) {
-		if (dataObj.hasOwnProperty(key)) {
-			console.log(key + " -> " + JSON.stringify(dataObj[key]));
-		}
-	}
-}
-printAllToConsole(dataObject);
-*/
-
 function initSearch() {
     alert("No One Can Hide");
 
     var name = splitName(prompt("Enter target name"));
-
     var id = getPersonID(name[0], name[1]);
 
     var info = getInfo(id, getKeyString, getPersonName, checkIfNull, getIndexFromId, getParents);
-
     responder("Target Info:", info);
+
     var descendants = [];
     var children = getDescendants(id, getPersonName, descendants);
-
     responder("Target's descendants:", children);
 
     var family = getFamily(id, getPersonName, getIndexFromId, getChildren, getSpouse, getParents, getSiblings);
@@ -295,13 +282,16 @@ function initSearch() {
 
     var nextOfKin = [];
     var nextOfKinId = getNextOfKin(id, getDob, getOldest, getChildren, getSpouse, getParents, getSiblings, getDoubleRelation, getTripleRelation, getIndexFromId);
-    console.log(nextOfKinId);
     if (nextOfKinId != null) {
         nextOfKin.push(getPersonName(nextOfKinId));
     } else {
         nextOfKin.push("No Next of Kin");
     }
     responder("Next of Kin:", nextOfKin);
+
+    var entry = prompt("Stuff\nmore stuff\nmore\n");
+
+    responder("Entry", entry);
 }
 
 function responder(title, info) {
@@ -679,6 +669,3 @@ function getDob(id) {
 }
 
 initSearch();
-rch();
-
-rch();
