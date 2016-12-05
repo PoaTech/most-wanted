@@ -265,21 +265,10 @@ var dataObject = [
 	}
 ];
 
-/* Remove this from your final submission
-function printAllToConsole(dataObj){
-	for (var key in dataObj) {
-		if (dataObj.hasOwnProperty(key)) {
-			console.log(key + " -> " + JSON.stringify(dataObj[key]));
-		}
-	}
-}
-printAllToConsole(dataObject);
-*/
-
 function initSearch(){
 	alert("No One Can Hide");
 
-  var name = splitName(prompt("Enter target name"));
+  var name = splitName(prompt("Enter target name, or enter search terms seperated by commas:"));
 
 	var id = getPersonID(name[0], name[1]);
 
@@ -293,11 +282,10 @@ function initSearch(){
 
 	var family = getFamily(id, getPersonName, getIndexFromId, getChildren, getSpouse, getParents);
 	console.log(family.join("\n"));
-	responder("Target's Family:", family)
+	responder("Target's Family:", family);
 }
 
 function responder(title, info){
-	// results may be a list of strings, an object, or a single string.
 	alert(title + "\n\n" + info.join("\n"));
 }
 
@@ -329,7 +317,7 @@ function getInfo(id, keyName, personName, checkNull, personIndex, findParents) {
 
 	for(var key in dataObject[id]) {
 		if (key == "parents") {
-			var parents = findParents(id)
+			var parents = findParents(id);
 			data = "";
 			for (var parent in parents) {
 				if (parent == 0 && parents.length == 2) {
@@ -389,8 +377,7 @@ function getKeyString(key) {
 				return "";
 	}
 }
-
-function getIndexFromId(id) {
+ function getIndexFromId(id) {
 	 for (var person in dataObject) {
 		 if (dataObject[person].id == id) {
 			 return person;
@@ -398,7 +385,6 @@ function getIndexFromId(id) {
 	 }
 	 return null;
  }
-
 function getDescendants(index, personName, totalDescendants) {
 	for (var person in dataObject) {
 		for (var parent in dataObject[person].parents) {
@@ -407,9 +393,6 @@ function getDescendants(index, personName, totalDescendants) {
 				getDescendants(person, personName, totalDescendants);
 			}
 		}
-	}
-	if (totalDescendants.length == 0) {
-		totalDescendants.push("None");
 	}
 	return totalDescendants;
 }
@@ -420,20 +403,14 @@ function getFamily(id, personName, personIndex, findChildren, findSpouse, findPa
 	var spouse = findSpouse(id, personIndex);
 	var parents = findParents(id);
 
-	if (children != null) {
-		for (var child in children) {
-			family.push(children[child]);
-		}
+	for (var child in children) {
+		family.push(children[child]);
 	}
 
-	if (spouse != null) {
-		family.push(spouse);
-	}
+	family.push(spouse);
 
-	if (parents != null) {
-		for (var parent in parents) {
-			family.push(parents[parent]);
-		}
+	for (var parent in parents) {
+		family.push(parents[parent]);
 	}
 
 	return family.map(personName);
@@ -466,5 +443,4 @@ function getParents(id) {
 	}
 	return parents;
 }
-
 initSearch();
