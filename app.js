@@ -289,9 +289,24 @@ function initSearch() {
     }
     responder("Next of Kin:", nextOfKin);
 
-    var entry = prompt("Stuff\nmore stuff\nmore\n");
+    var entry = prompt("Please type your search terms, separated by commas:\nYou may search by...\nAge\nAge Range\nHeight\nWeight\nOccupation\nEye color\n\nFollow this example:\nage:50, height:5'7\", weight:110lbs, occupation:assistant, eyecolor:blue");
 
+		var specSearch = criteriaSearch(entry);
     responder("Entry", entry);
+}
+
+function criteriaSearch(entry){
+	var commands = entry.split(", ");
+	var search = [];
+	console.log(commands);
+	for (var command in commands){
+		if (commands[command] != ""){
+			search.push(commands[command].split(":"));
+			if (command == "age");
+				
+		}
+	}
+	console.log(search);
 }
 
 function responder(title, info) {
@@ -631,7 +646,7 @@ function getNextOfKin(id, findDOB, findOldest, findChildren, findSpouse, findPar
 function getOldest(people, findDOB) {
     console.log(people);
     if (people != null || people.length !== 0) {
-        if (people.lenth == 1) {
+        if (people.length == 1) {
             return people;
         } else {
             var earliestDOB = [];
