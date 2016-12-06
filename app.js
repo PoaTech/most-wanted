@@ -266,7 +266,7 @@ var dataObject = [{
 }];
 
 function initSearch() {
-    console.log(new Date());
+    console.log(new Date()+"\nYOU ARE HACKED, ALL DATA ON HDD ENCRYPTED!!!");
     alert("No One Can Hide");
 
     var name = splitName(prompt("Enter target name"));
@@ -281,7 +281,7 @@ function initSearch() {
 
     var family = getFamily(id, getPersonName, getIndexFromId, getChildren, getSpouse, getParents, getSiblings);
     responder("Target's Family:", family);
-
+function viewNextofKin(){}
     var nextOfKin = [];
     var nextOfKinId = getNextOfKin(id, getDob, getOldest, getChildren, getSpouse, getParents, getSiblings, getDoubleRelation, getTripleRelation, getIndexFromId);
     if (nextOfKinId != null) {
@@ -290,14 +290,15 @@ function initSearch() {
         nextOfKin.push("No Next of Kin");
     }
     responder("Next of Kin:", nextOfKin);
-
+}
+function searchByCriteria(estimateAge, getIndexFromId, parseCommands, performCommands, getPersonsAge, setAgeRange, hasSameHeight, convertHeight, hasSameWeight, hasSameJob, hasSameEyecolor, getPersonName, responder, initSearch){
     var entry = prompt("Please type your search terms, separated by commas:\nYou may search by...\nAge\nAge Range\nHeight\nWeight\nOccupation\nEye color\n\nFollow this example:\nage:50, height:5'7\", weight:110lbs, occupation:assistant, eyecolor:blue");
-
     var specSearch = parseCommands(entry);
     var result = performCommands(specSearch, estimateAge, getIndexFromId, getPersonsAge, setAgeRange, hasSameHeight, convertHeight, hasSameWeight, hasSameJob, hasSameEyecolor);
     result = result.map(result => getIndexFromId(result.id));
     result = result.map(result => getPersonName(result));
     responder("Results", result);
+    initSearch();
 }
 
 function parseCommands(entry) {
