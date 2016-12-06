@@ -266,7 +266,7 @@ var dataObject = [{
 }];
 
 function initSearch() {
-  console.log(new Date());
+    console.log(new Date());
     alert("No One Can Hide");
 
     var name = splitName(prompt("Enter target name"));
@@ -293,104 +293,106 @@ function initSearch() {
 
     var entry = prompt("Please type your search terms, separated by commas:\nYou may search by...\nAge\nAge Range\nHeight\nWeight\nOccupation\nEye color\n\nFollow this example:\nage:50, height:5'7\", weight:110lbs, occupation:assistant, eyecolor:blue");
 
-		var specSearch = parseCommands(entry);
-    var result = performCommands(specSearch, estimateAge, getIndexFromId, getPersonsAge, setAgeRange, hasSameHeight, convertHeight, hasSameWeight, hasSameJob, hasSameEyecolor)
+    var specSearch = parseCommands(entry);
+    var result = performCommands(specSearch, estimateAge, getIndexFromId, getPersonsAge, setAgeRange, hasSameHeight, convertHeight, hasSameWeight, hasSameJob, hasSameEyecolor);
     result = result.map(result => getIndexFromId(result.id));
     result = result.map(result => getPersonName(result));
     responder("Results", result);
 }
 
-function parseCommands(entry){
-	var commands = entry.split(", ");
-	var search = [];
-	console.log(commands);
-	for (var command in commands){
-		if (commands[command] != ""){
-			search.push(commands[command].split(":"));
-			}
-  	}
-  return search;
-  }
-function performCommands(search, guessAge, findindex, findPersonAge, makeAgeRange, checkHeight, parseHeight, checkWeight, checkOccupation, checkEyeColor){
-var results = dataObject;
-  for (var criteria in search){
-    switch(search[criteria][0].toLowerCase()){
-      case "age":
-      results = results.filter(result => guessAge(result, search[criteria][1], findindex, findPersonAge));
-      break;
-      case "age-range":
-      var agerange = search[criteria][1].split("-");
-      console.log(agerange);
-      results = results.filter(result => makeAgeRange(result, agerange[0], agerange[1], findindex, findPersonAge))
-      break;
-      case "height":
-      console.log("wake up Neo");
-      height = parseHeight(search[criteria][1]);
-      results = results.filter(result => checkHeight(result, height));
-      break;
-      case "weight":
-      console.log(search[criteria][1].split("lbs")[0]);
-      results = results.filter(result => checkWeight(result, search[criteria][1].split("lbs")[0]));
-      break;
-      case "occupation":
-      results = results.filter(result => checkOccupation(result, search[criteria][1]) );
-      break;
-      case "eyecolor":
-      results = results.filter(result => checkEyeColor(result, search[criteria][1]) );
-      break;
-      default:
-      alert()
-      break;
+function parseCommands(entry) {
+    var commands = entry.split(", ");
+    var search = [];
+    console.log(commands);
+    for (var command in commands) {
+        if (commands[command] != "") {
+            search.push(commands[command].split(":"));
+        }
     }
-  }
-	return results;
+    return search;
 }
 
-function estimateAge(element, age, findindex, findPersonAge){
-  var id = findindex(element.id);
-  var personage = findPersonAge(id);
-  console.log(personage);
-  return(personage == age);
+function performCommands(search, guessAge, findindex, findPersonAge, makeAgeRange, checkHeight, parseHeight, checkWeight, checkOccupation, checkEyeColor) {
+    var results = dataObject;
+    for (var criteria in search) {
+        switch (search[criteria][0].toLowerCase()) {
+            case "age":
+                results = results.filter(result => guessAge(result, search[criteria][1], findindex, findPersonAge));
+                break;
+            case "age-range":
+                var agerange = search[criteria][1].split("-");
+                console.log(agerange);
+                results = results.filter(result => makeAgeRange(result, agerange[0], agerange[1], findindex, findPersonAge));
+                break;
+            case "height":
+                console.log("wake up Neo");
+                height = parseHeight(search[criteria][1]);
+                results = results.filter(result => checkHeight(result, height));
+                break;
+            case "weight":
+                console.log(search[criteria][1].split("lbs")[0]);
+                results = results.filter(result => checkWeight(result, search[criteria][1].split("lbs")[0]));
+                break;
+            case "occupation":
+                results = results.filter(result => checkOccupation(result, search[criteria][1]));
+                break;
+            case "eyecolor":
+                results = results.filter(result => checkEyeColor(result, search[criteria][1]));
+                break;
+            default:
+                alert();
+                break;
+        }
+    }
+    return results;
 }
 
-function setAgeRange(element, minage, maxage, findindex, findPersonAge){
-  var id = findindex(element.id);
-  var personage = findPersonAge(id);
-  console.log(personage);
-  console.log(personage >= minage);
-  return(personage >= minage && personage <= maxage);
+function estimateAge(element, age, findindex, findPersonAge) {
+    var id = findindex(element.id);
+    var personage = findPersonAge(id);
+    console.log(personage);
+    return (personage == age);
 }
 
-function getPersonsAge(id){
-  var dob = dataObject[id].dob.split("/");
-  var birthdate = new Date(dob[2], dob[0], dob[1]);
-  var date = new Date();
-  var diff = date-birthdate;
-  var personage = Math.floor(diff/31557600000);
-  return personage;
+function setAgeRange(element, minage, maxage, findindex, findPersonAge) {
+    var id = findindex(element.id);
+    var personage = findPersonAge(id);
+    console.log(personage);
+    console.log(personage >= minage);
+    return (personage >= minage && personage <= maxage);
 }
 
-function convertHeight(height){
-  var feetandinches = height.split("'");
-  var feet = feetandinches[0];
-  var inches = feetandinches[1].split("\"")[0];
-  console.log("feet"+feet+"inches"+inches);
-  return(+(feet*12) + +inches);
+function getPersonsAge(id) {
+    var dob = dataObject[id].dob.split("/");
+    var birthdate = new Date(dob[2], dob[0], dob[1]);
+    var date = new Date();
+    var diff = date - birthdate;
+    var personage = Math.floor(diff / 31557600000);
+    return personage;
 }
 
-function hasSameHeight(element, height){
-  return(element.height == height);
+function convertHeight(height) {
+    var feetandinches = height.split("'");
+    var feet = feetandinches[0];
+    var inches = feetandinches[1].split("\"")[0];
+    console.log("feet" + feet + "inches" + inches);
+    return (+(feet * 12) + +inches);
 }
 
-function hasSameWeight(element, weight){
-  return(element.weight == weight);
+function hasSameHeight(element, height) {
+    return (element.height == height);
 }
 
-function hasSameEyecolor(element, eyecolor){
-  return(element.eyeColor == eyecolor);
+function hasSameWeight(element, weight) {
+    return (element.weight == weight);
 }
-function hasSameJob(element, occupation){
-  return(element.occupation == occupation);
+
+function hasSameEyecolor(element, eyecolor) {
+    return (element.eyeColor == eyecolor);
+}
+
+function hasSameJob(element, occupation) {
+    return (element.occupation == occupation);
 }
 
 function responder(title, info) {
@@ -645,117 +647,106 @@ function getTripleRelation(id, findFirstRelation, findSecondRelation, findThirdR
 }
 
 function getNextOfKin(id, findDOB, findOldest, findChildren, findSpouse, findParents, findSiblings, findDoubleRelation, findTripleRelation, personIndex) {
-
+    var oldest;
     var nextOfKin = findSpouse(id, personIndex);
     if (nextOfKin != null) {
         return nextOfKin;
     }
-    console.log("Spouse: " + nextOfKin);
 
     nextOfKin = findChildren(id);
-    if (nextOfKin != null) {
-        var oldest = findOldest(nextOfKin, findDOB);
-        console.log("Oldest: " + oldest);
-        return oldest;
+    if (nextOfKin != null && nextOfKin.length != 0) {
+        oldest = findOldest(nextOfKin, findDOB);
+        if (oldest != undefined) {
+            return oldest;
+        }
     }
-    console.log("Child: " + nextOfKin);
 
     nextOfKin = findParents(id);
-    if (nextOfKin != null) {
-        var oldest = findOldest(nextOfKin, findDOB);
-        console.log("Oldest: " + oldest);
-        return oldest;
+    if (nextOfKin != null && nextOfKin.length != 0) {
+        oldest = findOldest(nextOfKin, findDOB);
+        if (oldest != undefined) {
+            return oldest;
+        }
     }
-    console.log("Parent: " + nextOfKin);
 
     nextOfKin = findSiblings(id, findParents, findChildren);
-    if (nextOfKin != null) {
-        var oldest = findOldest(nextOfKin, findDOB);
-        console.log("Oldest: " + oldest);
-        return oldest;
+    if (nextOfKin != null && nextOfKin.length != 0) {
+        oldest = findOldest(nextOfKin, findDOB);
+        if (oldest != undefined) {
+            return oldest;
+        }
     }
-    console.log("Sibling: " + nextOfKin);
 
     nextOfKin = findDoubleRelation(id, findChildren, findChildren);
-    if (nextOfKin != null) {
-        var oldest = findOldest(nextOfKin, findDOB);
-        console.log("Oldest: " + oldest);
-        return oldest;
+    if (nextOfKin != null && nextOfKin.length != 0) {
+        oldest = findOldest(nextOfKin, findDOB);
+        if (oldest != undefined) {
+            return oldest;
+        }
     }
-    console.log("Grandchild: " + nextOfKin);
 
     nextOfKin = findDoubleRelation(id, findParents, findParents);
-    if (nextOfKin != null) {
-        var oldest = findOldest(nextOfKin, findDOB);
-        console.log("Oldest: " + oldest);
-        return oldest;
+    if (nextOfKin != null && nextOfKin.length != 0) {
+        oldest = findOldest(nextOfKin, findDOB);
+        if (oldest != undefined) {
+            return oldest;
+        }
     }
-    console.log("Grandparent: " + nextOfKin);
 
     nextOfKin = getSiblingChildren(id, findSiblings, findChildren, findParents);
-    if (nextOfKin != null) {
-        var oldest = findOldest(nextOfKin, findDOB);
-        console.log("Oldest: " + oldest);
-        return oldest;
+    if (nextOfKin != null && nextOfKin.length != 0) {
+        oldest = findOldest(nextOfKin, findDOB);
+        if (oldest != undefined) {
+            return oldest;
+        }
     }
-    console.log("Niece/Nephew: " + nextOfKin);
 
     nextOfKin = findDoubleRelation(id, findParents, findSiblings);
-    if (nextOfKin != null) {
-        var oldest = findOldest(nextOfKin, findDOB);
-        console.log("Oldest: " + oldest);
-        return oldest;
+    if (nextOfKin != null && nextOfKin.length != 0) {
+        oldest = findOldest(nextOfKin, findDOB);
+        if (oldest != undefined) {
+            return oldest;
+        }
     }
-    console.log("Aunt/Uncle: " + nextOfKin);
 
     nextOfKin = findTripleRelation(id, findChildren, findChildren, findChildren);
-    if (nextOfKin != null) {
-        var oldest = findOldest(nextOfKin, findDOB);
-        console.log("Oldest: " + oldest);
-        return oldest;
+    if (nextOfKin != null && nextOfKin.length != 0) {
+        oldest = findOldest(nextOfKin, findDOB);
+        if (oldest != undefined) {
+            return oldest;
+        }
     }
-    console.log("Great Grandchild: " + nextOfKin);
 
     nextOfKin = findTripleRelation(id, findParents, findParents, findParents);
-    if (nextOfKin != null) {
-        var oldest = findOldest(nextOfKin, findDOB);
-        console.log("Oldest: " + oldest);
-        return oldest;
+    if (nextOfKin != null && nextOfKin.length != 0) {
+        oldest = findOldest(nextOfKin, findDOB);
+        if (oldest != undefined) {
+            return oldest;
+        }
     }
-    console.log("Great Grandparent: " + nextOfKin);
 
     return null;
 }
 
 function getOldest(people, findDOB) {
-    console.log(people);
     if (people != null || people.length !== 0) {
         if (people.length == 1) {
             return people;
         } else {
-            var earliestDOB = [];
-            var dob = [];
+            var earliestDOB;
             for (var person in people) {
                 if (person == 0) {
                     earliestDOB = findDOB(people[person]);
                 } else {
                     dob = findDOB(people[person]);
-                    if (dob[2] < earliestDOB[2]) {
+                    if (dob < earliestDOB) {
                         earliestDOB = dob;
-                    } else if (dob[2] == earliestDOB[2]) {
-                        if (dob[0] < earliestDOB[0]) {
-                            earliestDOB = dob;
-                        } else if (dob[0] == earliestDOB[0]) {
-                            if (dob[1] < earliestDOB[1]) {
-                                earliestDOB = dob;
-                            }
-                        }
                     }
                 }
             }
             for (person in people) {
                 dob = findDOB(people[person]);
-                if (earliestDOB[0] == dob[0] && earliestDOB[1] == dob[1] && earliestDOB[2] == dob[2]) {
+                if (earliestDOB.getFullYear == dob.getFullYear && earliestDOB.getMonth == dob.getMonth && earliestDOB.getDate == dob.getDate) {
                     return people[person];
                 }
             }
@@ -764,7 +755,9 @@ function getOldest(people, findDOB) {
 }
 
 function getDob(id) {
-    return (dataObject[id].dob.split("/"));
+    dob = dataObject[id].dob.split("/");
+    birthdate = new Date(dob[2], dob[0], dob[1]);
+    return birthdate;
 }
 
 initSearch();
