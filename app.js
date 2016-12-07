@@ -301,7 +301,6 @@ function nameSearch(getKeyString, getPersonID, splitName, checkIfNull, getIndexF
         alert("Invalid person, resubmit");
         nameSearch(getKeyString, getPersonID, splitName, checkIfNull, getIndexFromId, getParents, getChildren, getSpouse, getSiblings, responder, getPersonName, getNextOfKin, getDob, getOldest, getDoubleRelation, getTripleRelation, personIndex);
     }
-
 }
 
 function nameSearchDetails(id, getKeyString, getPersonID, splitName, checkIfNull, getIndexFromId, getParents, getChildren, getSpouse, getSiblings, responder, getPersonName, getNextOfKin, getDob, getOldest, getDoubleRelation, getTripleRelation, personIndex) {
@@ -325,7 +324,6 @@ function nameSearchDetails(id, getKeyString, getPersonID, splitName, checkIfNull
             break;
         case "5":
             nameSearch(getKeyString, getPersonID, splitName, checkIfNull, getIndexFromId, getParents, getChildren, getSpouse, getSiblings, responder, getPersonName, getNextOfKin, getDob, getOldest, getDoubleRelation, getTripleRelation, personIndex);
-            nameSearchDetails(id, getKeyString, getPersonID, splitName, checkIfNull, getIndexFromId, getParents, getChildren, getSpouse, getSiblings, responder, getPersonName, getNextOfKin, getDob, getOldest, getDoubleRelation, getTripleRelation, personIndex);
             break;
         case "6":
             searchSelector();
@@ -626,7 +624,9 @@ function getChildren(id) {
 }
 
 function getSpouse(id, personIndex) {
-    return personIndex(dataObject[id].currentSpouse);
+    if (dataObject[id].currentSpouse != null) {
+        return personIndex(dataObject[id].currentSpouse);
+    }
 }
 
 function getParents(id) {
@@ -704,7 +704,8 @@ function getTripleRelation(id, findFirstRelation, findSecondRelation, findThirdR
 function getNextOfKin(id, findDOB, findOldest, findChildren, findSpouse, findParents, findSiblings, findDoubleRelation, findTripleRelation, personIndex) {
     var oldest;
     var relations = [];
-    relations.push(findSpouse(id, personIndex));
+
+    relations.push([findSpouse(id, personIndex)]);
     relations.push(findChildren(id));
     relations.push(findParents(id));
     relations.push(findSiblings(id, findParents, findChildren));
@@ -724,9 +725,9 @@ function getNextOfKin(id, findDOB, findOldest, findChildren, findSpouse, findPar
     relations.push(findTripleRelation(id, findParents, findParents, findParents));
 
     for (var relation in relations) {
-        if (relations[relation] != null && relations[relation].length != 0) {
+        if (relations[relation] != null && relations[relation].length != 0 && relations[relation] != [null]) {
             oldest = findOldest(relations[relation], findDOB);
-            if (oldest != undefined) {
+            if (oldest != undefined && oldest != null) {
                 return oldest;
             }
         }
@@ -737,7 +738,7 @@ function getNextOfKin(id, findDOB, findOldest, findChildren, findSpouse, findPar
 function getOldest(people, findDOB) {
     if (people != null || people.length !== 0) {
         if (people.length == 1) {
-            return people;
+            return people[0];
         } else {
             var earliestDOB;
             for (var person in people) {
