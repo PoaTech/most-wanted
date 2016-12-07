@@ -584,7 +584,7 @@ function getFamily(id, personName, personIndex, findChildren, findSpouse, findPa
     var children = findChildren(id);
     var spouse = findSpouse(id, personIndex);
     var parents = findParents(id);
-    var siblings = findSiblings(id, findParents);
+    var siblings = findSiblings(id, findParents, findChildren);
 
     if (children != null) {
         for (var child in children) {
@@ -641,19 +641,24 @@ function getParents(id) {
     return parents;
 }
 
+function isUnique(element, index, self) {
+    return self.indexOf(element) === index;
+}
+
 function getSiblings(id, findParents, findChildren) {
     var results = [];
     var parents = findParents(id);
+    var parentsChildren = [];
     if (parents != null) {
-        for (var person in dataObject) {
-            for (var parent in parents) {
-                if (dataObject[id].id == dataObject[person].parents[parent]) {
-                    if (dataObject[person].id != id) {
-                        results.push(person);
-                    }
-                }
+        for (var parent in parents) {
+            parentsChildren = parentsChildren.concat(findChildren(parents[parent]));
+        }
+        for (var child in parentsChildren) {
+            if (parentsChildren[child] != id) {
+                results.push(parentsChildren[child]);
             }
         }
+        results = results.filter(isUnique);
         return results;
     }
     return null;
