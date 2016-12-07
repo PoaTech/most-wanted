@@ -421,9 +421,7 @@ function estimateAge(element, age, findindex, findPersonAge) {
 function setAgeRange(element, age1, age2, findindex, findPersonAge) {
     var id = findindex(element.id);
     var personage = findPersonAge(id);
-    console.log("This is age1:"+ age1);
-    console.log("This is age2:"+ age2);
-      if(age1 > age2){
+      if(+age1 > +age2){
       var minage = age2;
       var maxage = age1;
     }
@@ -431,8 +429,6 @@ function setAgeRange(element, age1, age2, findindex, findPersonAge) {
       var minage = age1;
       var maxage = age2;
     }
-    console.log("This is minage:"+ minage);
-    console.log("This is maxage:"+ maxage);
     return (personage >= minage && personage <= maxage);
 }
 
