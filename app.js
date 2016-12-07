@@ -753,7 +753,7 @@ function getOldest(people, findDOB) {
             }
             for (person in people) {
                 dob = findDOB(people[person]);
-                if (earliestDOB.getFullYear == dob.getFullYear && earliestDOB.getMonth == dob.getMonth && earliestDOB.getDate == dob.getDate) {
+                if (earliestDOB.getFullYear() == dob.getFullYear() && earliestDOB.getMonth() == dob.getMonth() && earliestDOB.getDate() == dob.getDate()) {
                     return people[person];
                 }
             }
