@@ -268,77 +268,24 @@ var dataObject = [{
     "currentSpouse": null
 }];
 
-function searchSelector(){
-  alert("No One Can Hide");
-  var searchSelection = prompt("Make search method selection:\n\n1. Search by name\n2. Parameter search");
-  switch (searchSelection){
-    case "1":
-    nameSearch(getKeyString, getPersonID, splitName, checkIfNull, getIndexFromId, getParents, getChildren, getSpouse, getSiblings, responder, getPersonName, getNextOfKin, getDob, getOldest, getDoubleRelation, getTripleRelation, getIndexFromId);
-    break;
-    case "2":
-    parameterSearch(estimateAge, getIndexFromId, parseCommands, performCommands, getPersonsAge, setAgeRange, hasSameHeight, convertHeight, hasSameWeight, hasSameJob, hasSameEyecolor, getPersonName, responder);
-    break;
-    default:
-    alert("Invalid choice, please choose again");
-    searchSelector();
-    break;
-  }
-  searchSelector();
-}
-function nameSearch(getKeyString, getPersonID, splitName, checkIfNull, getIndexFromId, getParents, getChildren, getSpouse, getSiblings, responder, getPersonName, getNextOfKin, getDob, getOldest, getDoubleRelation, getTripleRelation, personIndex){
-    console.log(new Date()+"\nYOU ARE HACKED, ALL DATA ON HDD ENCRYPTED!!!");
-    var name = splitName(prompt("Enter target name"));
-    if (name[1] != undefined){
-    var id = getPersonID(name[0], name[1]);
-    if (id != undefined){
-      nameSearchDetails(id, getKeyString, checkIfNull, getIndexFromId, getParents, getChildren, getSpouse, getSiblings, responder, getPersonName, getNextOfKin, getDob, getOldest, getDoubleRelation, getTripleRelation, personIndex);
-    }
-    else{
-      alert("Invalid person, resubmit");
-      nameSearch(getKeyString, getPersonID, splitName, checkIfNull, getIndexFromId, getParents, getChildren, getSpouse, getSiblings, responder, getPersonName, getNextOfKin, getDob, getOldest, getDoubleRelation, getTripleRelation, personIndex);
-    }
-  }
-    else{
-      alert("Invalid person, resubmit");
-      nameSearch(getKeyString, getPersonID, splitName, checkIfNull, getIndexFromId, getParents, getChildren, getSpouse, getSiblings, responder, getPersonName, getNextOfKin, getDob, getOldest, getDoubleRelation, getTripleRelation, personIndex);
-    }
+function initSearch() {
+    console.log(new Date() + "\nYOU ARE HACKED, ALL DATA ON HDD ENCRYPTED!!!");
+    alert("No One Can Hide");
 
-}
-function nameSearchDetails(id, getKeyString, checkIfNull, getIndexFromId, getParents, getChildren, getSpouse, getSiblings, responder, getPersonName, getNextOfKin, getDob, getOldest, getDoubleRelation, getTripleRelation, personIndex){
-  var chosenDetails = prompt("What do you need to know?\n\n1. Identifying information\n2. Liabilities\n3.Potential seekers of revenge\n4. Immediate threat");
-  switch (chosenDetails){
-    case "1":
-    viewInfo(id, getKeyString, getPersonName, checkIfNull, getIndexFromId, getParents, responder);
-    break;
-    case "2":
-    viewFamily(id, responder, getFamily, getPersonName, getIndexFromId, getChildren, getSpouse, getParents, getSiblings);
-    break;
-    case "3":
-    viewDescendants(id, responder, getPersonName, getDescendants);
-    break;
-    case "4":
-    viewNextofKin(id, responder, getPersonName, getNextOfKin, getDob, getOldest, getChildren, getSpouse, getParents, getSiblings, getDoubleRelation, getTripleRelation, personIndex);
-    break;
-    default:
-    alert("Invalid selection, choose again");
-    nameSearchDetails(id, getKeyString, checkIfNull, getIndexFromId, getParents, getChildren, getSpouse, getSiblings, responder, getPersonName, getNextOfKin, getDob, getOldest, getDoubleRelation, getTripleRelation, personIndex);
-  }
-}
-function viewInfo(id, getKeyString, getPersonName, checkIfNull, getIndexFromId, getParents, responder){
+    var name = splitName(prompt("Enter target name"));
+    var id = getPersonID(name[0], name[1]);
+
     var info = getInfo(id, getKeyString, getPersonName, checkIfNull, getIndexFromId, getParents);
     responder("Target Info:", info);
-}
-function viewDescendants(id, responder, getPersonName, getDescendants){
+
     var descendants = [];
     var children = getDescendants(id, getPersonName, descendants);
     responder("Target's descendants:", children);
-}
-function viewFamily(id, responder, getFamily, getPersonName, getIndexFromId, getChildren, getSpouse, getParents, getSiblings){
+
     var family = getFamily(id, getPersonName, getIndexFromId, getChildren, getSpouse, getParents, getSiblings);
     responder("Target's Family:", family);
 
-}
-function viewNextofKin(id, responder, getPersonName, getNextOfKin, findDOB, findOldest, findChildren, findSpouse, findParents, findSiblings, findDoubleRelation, findTripleRelation, personIndex){
+    function viewNextofKin() {}
     var nextOfKin = [];
     var nextOfKinId = getNextOfKin(id, getDob, getOldest, getChildren, getSpouse, getParents, getSiblings, getDoubleRelation, getTripleRelation, getIndexFromId);
     if (nextOfKinId != null) {
@@ -348,7 +295,8 @@ function viewNextofKin(id, responder, getPersonName, getNextOfKin, findDOB, find
     }
     responder("Next of Kin:", nextOfKin);
 }
-function parameterSearch(estimateAge, getIndexFromId, parseCommands, performCommands, getPersonsAge, setAgeRange, hasSameHeight, convertHeight, hasSameWeight, hasSameJob, hasSameEyecolor, getPersonName, responder, initSearch){
+
+function searchByCriteria(estimateAge, getIndexFromId, parseCommands, performCommands, getPersonsAge, setAgeRange, hasSameHeight, convertHeight, hasSameWeight, hasSameJob, hasSameEyecolor, getPersonName, responder, initSearch) {
     var entry = prompt("Please type your search terms, separated by commas:\nYou may search by...\nAge\nAge Range\nHeight\nWeight\nOccupation\nEye color\n\nFollow this example:\nage:50, height:5'7\", weight:110lbs, occupation:assistant, eyecolor:blue");
     var specSearch = parseCommands(entry);
     var result = performCommands(specSearch, estimateAge, getIndexFromId, getPersonsAge, setAgeRange, hasSameHeight, convertHeight, hasSameWeight, hasSameJob, hasSameEyecolor);
@@ -444,21 +392,27 @@ function hasSameHeight(element, height) {
 function hasSameWeight(element, weight) {
     return (element.weight == weight);
 }
+
 function hasSameEyecolor(element, eyecolor) {
     return (element.eyeColor == eyecolor);
 }
+
 function hasSameJob(element, occupation) {
     return (element.occupation == occupation);
 }
+
 function responder(title, info) {
+
     alert(title + "\n\n" + info.join("\n"));
 }
+
 function splitName(yourName) {
     if (yourName != null) {
         var name = yourName.split(" ");
         return name;
     }
 }
+
 function getPersonID(firstname, lastname) {
     for (var person in dataObject) {
         if (dataObject[person].firstName.toLowerCase() == firstname.toLowerCase() && dataObject[person].lastName.toLowerCase() == lastname.toLowerCase()) {
@@ -466,15 +420,18 @@ function getPersonID(firstname, lastname) {
         }
     }
 }
+
 function getPersonName(id) {
     if (id != null) {
         return dataObject[id].firstName + " " + dataObject[id].lastName;
     }
     return null;
 }
+
 function getInfo(id, keyName, personName, checkNull, personIndex, findParents) {
     var personInfo = [];
     var data;
+
     for (var key in dataObject[id]) {
         if (key == "parents") {
             var parents = findParents(id);
@@ -496,12 +453,14 @@ function getInfo(id, keyName, personName, checkNull, personIndex, findParents) {
     }
     return personInfo;
 }
+
 function checkIfNull(data) {
     if (data != null) {
         return data;
     }
     return "None";
 }
+
 function getKeyString(key) {
     switch (key) {
         case "id":
@@ -530,6 +489,7 @@ function getKeyString(key) {
             return "";
     }
 }
+
 function getIndexFromId(id) {
     for (var person in dataObject) {
         if (dataObject[person].id == id) {
@@ -538,6 +498,7 @@ function getIndexFromId(id) {
     }
     return null;
 }
+
 function getDescendants(index, personName, totalDescendants) {
     for (var person in dataObject) {
         for (var parent in dataObject[person].parents) {
@@ -552,32 +513,39 @@ function getDescendants(index, personName, totalDescendants) {
     }
     return totalDescendants;
 }
+
 function getFamily(id, personName, personIndex, findChildren, findSpouse, findParents, findSiblings) {
     var family = [];
     var children = findChildren(id);
     var spouse = findSpouse(id, personIndex);
     var parents = findParents(id);
     var siblings = findSiblings(id, findParents);
+
     if (children != null) {
         for (var child in children) {
             family.push(children[child]);
         }
     }
+
     if (spouse != null) {
         family.push(spouse);
     }
+
     if (parents != null) {
         for (var parent in parents) {
             family.push(parents[parent]);
         }
     }
+
     if (siblings != null) {
         for (var sibling in siblings) {
             family.push(siblings[sibling]);
         }
     }
+
     return family.map(personName);
 }
+
 function getChildren(id) {
     var children = [];
     for (var person in dataObject) {
@@ -589,9 +557,11 @@ function getChildren(id) {
     }
     return children;
 }
+
 function getSpouse(id, personIndex) {
     return personIndex(dataObject[id].currentSpouse);
 }
+
 function getParents(id) {
     var parents = [];
     for (var parent in dataObject[id].parents) {
@@ -603,6 +573,7 @@ function getParents(id) {
     }
     return parents;
 }
+
 function getSiblings(id, findParents, findChildren) {
     var results = [];
     var parents = findParents(id);
@@ -683,83 +654,26 @@ function getTripleRelation(id, findFirstRelation, findSecondRelation, findThirdR
 
 function getNextOfKin(id, findDOB, findOldest, findChildren, findSpouse, findParents, findSiblings, findDoubleRelation, findTripleRelation, personIndex) {
     var oldest;
-    var nextOfKin = findSpouse(id, personIndex);
-    if (nextOfKin != null) {
-        return nextOfKin;
-    }
+    var relations = [];
+    relations.push(findSpouse(id, personIndex));
+    relations.push(findChildren(id));
+    relations.push(findParents(id));
+    relations.push(findSiblings(id, findParents, findChildren));
+    relations.push(findDoubleRelation(id, findChildren, findChildren));
+    relations.push(findDoubleRelation(id, findParents, findParents));
+    relations.push(getSiblingChildren(id, findSiblings, findChildren, findParents));
+    relations.push(findDoubleRelation(id, findParents, findSiblings));
+    relations.push(findTripleRelation(id, findChildren, findChildren, findChildren));
+    relations.push(findTripleRelation(id, findParents, findParents, findParents));
 
-    nextOfKin = findChildren(id);
-    if (nextOfKin != null && nextOfKin.length != 0) {
-        oldest = findOldest(nextOfKin, findDOB);
-        if (oldest != undefined) {
-            return oldest;
+    for (relation in relations) {
+        if (relations[relation] != null && relations[relation].length != 0) {
+            oldest = findOldest(relations[relation], findDOB);
+            if (oldest != undefined) {
+                return oldest;
+            }
         }
     }
-
-    nextOfKin = findParents(id);
-    if (nextOfKin != null && nextOfKin.length != 0) {
-        oldest = findOldest(nextOfKin, findDOB);
-        if (oldest != undefined) {
-            return oldest;
-        }
-    }
-
-    nextOfKin = findSiblings(id, findParents, findChildren);
-    if (nextOfKin != null && nextOfKin.length != 0) {
-        oldest = findOldest(nextOfKin, findDOB);
-        if (oldest != undefined) {
-            return oldest;
-        }
-    }
-
-    nextOfKin = findDoubleRelation(id, findChildren, findChildren);
-    if (nextOfKin != null && nextOfKin.length != 0) {
-        oldest = findOldest(nextOfKin, findDOB);
-        if (oldest != undefined) {
-            return oldest;
-        }
-    }
-
-    nextOfKin = findDoubleRelation(id, findParents, findParents);
-    if (nextOfKin != null && nextOfKin.length != 0) {
-        oldest = findOldest(nextOfKin, findDOB);
-        if (oldest != undefined) {
-            return oldest;
-        }
-    }
-
-    nextOfKin = getSiblingChildren(id, findSiblings, findChildren, findParents);
-    if (nextOfKin != null && nextOfKin.length != 0) {
-        oldest = findOldest(nextOfKin, findDOB);
-        if (oldest != undefined) {
-            return oldest;
-        }
-    }
-
-    nextOfKin = findDoubleRelation(id, findParents, findSiblings);
-    if (nextOfKin != null && nextOfKin.length != 0) {
-        oldest = findOldest(nextOfKin, findDOB);
-        if (oldest != undefined) {
-            return oldest;
-        }
-    }
-
-    nextOfKin = findTripleRelation(id, findChildren, findChildren, findChildren);
-    if (nextOfKin != null && nextOfKin.length != 0) {
-        oldest = findOldest(nextOfKin, findDOB);
-        if (oldest != undefined) {
-            return oldest;
-        }
-    }
-
-    nextOfKin = findTripleRelation(id, findParents, findParents, findParents);
-    if (nextOfKin != null && nextOfKin.length != 0) {
-        oldest = findOldest(nextOfKin, findDOB);
-        if (oldest != undefined) {
-            return oldest;
-        }
-    }
-
     return null;
 }
 
@@ -795,4 +709,4 @@ function getDob(id) {
     return birthdate;
 }
 
-searchSelector();
+initSearch();
