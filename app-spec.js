@@ -47,9 +47,11 @@ describe('function getSiblings', function() {
     it('confirm Joey Madden is an only child', function() {
         expect(getSiblings(21, getParents, getChildren)).toEqual([]);
     });
-<<<<<<< Updated upstream
     it('confirm Jill Pafoy has a brother', function(){
-      expect(getSiblings(10, getParents, getChildren)).toEqual([]);
+      expect(getSiblings(10, getParents, getChildren)).toEqual(['11']);
+    });
+    it('confirm Hana has a sibling', function() {
+        expect(getSiblings(17, getParents, getChildren)).toEqual(['16', '18', '19']);
     });
 });
 
@@ -60,11 +62,6 @@ describe('function getParents', function(){
   it('confirm that Joey Madden has parents', function(){
     expect(getParents(21)).toEqual(['19', '20']);
   });
-=======
-    it('confirm Hana has a sibling', function() {
-        expect(getSiblings(17, getParents, getChildren)).toEqual(['19', '18', '16']);
-    })
->>>>>>> Stashed changes
 });
 
 /*describe('function estimateAge', function(){
