@@ -4,7 +4,7 @@
   "description": "Testing for most wanted",
   "main": "app-spec.js",
   "scripts": {
-    "test": "npm test"
+    "test": "karma start karma.conf.js"
   },
   "repository": {
     "type": "git",
@@ -18,5 +18,12 @@
   "bugs": {
     "url": "https://github.com/PoaTech/most-wanted/issues"
   },
-  "homepage": "https://github.com/PoaTech/most-wanted#readme"
+  "homepage": "https://github.com/PoaTech/most-wanted#readme",
+  "devDependencies": {
+    "eslint": "^3.11.1",
+    "jasmine-core": "^2.5.2",
+    "karma": "^1.3.0",
+    "karma-chrome-launcher": "^2.0.0",
+    "karma-jasmine": "^1.0.2"
+  }
 }
