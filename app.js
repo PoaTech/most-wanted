@@ -765,5 +765,3 @@ function getDob(id) {
     birthdate = new Date(dob[2], dob[0], dob[1]);
     return birthdate;
 }
-
-searchSelector();

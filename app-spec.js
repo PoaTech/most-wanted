@@ -274,3 +274,9 @@ describe('function setAgeRange', function() {
         expect(setAgeRange(dataObject[0], 10, 1000)).toEqual(true);
     });
 });
+
+describe('function convertHeight', function() {
+    it('convert height', function() {
+        expect(convertHeight("5'8\"")).toEqual(68);
+    });
+});
