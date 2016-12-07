@@ -270,7 +270,7 @@ var dataObject = [{
 
 function searchSelector() {
     alert("No One Can Hide");
-    var searchSelection = prompt("Make search method selection:\n\n1. Search by name\n2. Parameter search");
+    var searchSelection = prompt("Make search method selection:\n\n1. Search by name\n2. Parameter search\n3. Exit");
     switch (searchSelection) {
         case "1":
             nameSearch(getKeyString, getPersonID, splitName, checkIfNull, getIndexFromId, getParents, getChildren, getSpouse, getSiblings, responder, getPersonName, getNextOfKin, getDob, getOldest, getDoubleRelation, getTripleRelation, getIndexFromId);
@@ -278,12 +278,13 @@ function searchSelector() {
         case "2":
             parameterSearch(estimateAge, getIndexFromId, parseCommands, performCommands, getPersonsAge, setAgeRange, hasSameHeight, convertHeight, hasSameWeight, hasSameJob, hasSameEyecolor, getPersonName, responder, searchSelector);
             break;
+        case "3":
+            break;
         default:
             alert("Invalid choice, please choose again");
             searchSelector();
             break;
     }
-    searchSelector();
 }
 
 function nameSearch(getKeyString, getPersonID, splitName, checkIfNull, getIndexFromId, getParents, getChildren, getSpouse, getSiblings, responder, getPersonName, getNextOfKin, getDob, getOldest, getDoubleRelation, getTripleRelation, personIndex) {
@@ -421,13 +422,12 @@ function estimateAge(element, age, findindex, findPersonAge) {
 function setAgeRange(element, age1, age2, findindex, findPersonAge) {
     var id = findindex(element.id);
     var personage = findPersonAge(id);
-      if(+age1 > +age2){
-      var minage = age2;
-      var maxage = age1;
-    }
-    else{
-      var minage = age1;
-      var maxage = age2;
+    if (+age1 > +age2) {
+        var minage = age2;
+        var maxage = age1;
+    } else {
+        var minage = age1;
+        var maxage = age2;
     }
     return (personage >= minage && personage <= maxage);
 }
