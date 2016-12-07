@@ -766,4 +766,4 @@ function getDob(id) {
     return birthdate;
 }
 
-initSearch();
+searchSelector();
