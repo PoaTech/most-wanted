@@ -276,7 +276,7 @@ function searchSelector() {
             nameSearch(getKeyString, getPersonID, splitName, checkIfNull, getIndexFromId, getParents, getChildren, getSpouse, getSiblings, responder, getPersonName, getNextOfKin, getDob, getOldest, getDoubleRelation, getTripleRelation, getIndexFromId);
             break;
         case "2":
-            parameterSearch(estimateAge, getIndexFromId, parseCommands, performCommands, getPersonsAge, setAgeRange, hasSameHeight, convertHeight, hasSameWeight, hasSameJob, hasSameEyecolor, getPersonName, responder);
+            parameterSearch(estimateAge, getIndexFromId, parseCommands, performCommands, getPersonsAge, setAgeRange, hasSameHeight, convertHeight, hasSameWeight, hasSameJob, hasSameEyecolor, getPersonName, responder, searchSelector);
             break;
         default:
             alert("Invalid choice, please choose again");
@@ -287,7 +287,6 @@ function searchSelector() {
 }
 
 function nameSearch(getKeyString, getPersonID, splitName, checkIfNull, getIndexFromId, getParents, getChildren, getSpouse, getSiblings, responder, getPersonName, getNextOfKin, getDob, getOldest, getDoubleRelation, getTripleRelation, personIndex) {
-    console.log(new Date() + "\nYOU ARE HACKED, ALL DATA ON HDD ENCRYPTED!!!");
     var name = splitName(prompt("Enter target name"));
     if (name[1] != undefined) {
         var id = getPersonID(name[0], name[1]);
@@ -305,7 +304,7 @@ function nameSearch(getKeyString, getPersonID, splitName, checkIfNull, getIndexF
 }
 
 function nameSearchDetails(id, getKeyString, getPersonID, splitName, checkIfNull, getIndexFromId, getParents, getChildren, getSpouse, getSiblings, responder, getPersonName, getNextOfKin, getDob, getOldest, getDoubleRelation, getTripleRelation, personIndex) {
-    var chosenDetails = prompt("What do you need to know about " + getPersonName(id) + "?\n\n1. Identifying information\n2. Liabilities\n3. Potential seekers of revenge\n4. Immediate threat\n5. Search different name\n6. Back");
+    var chosenDetails = prompt("What do you need to know about " + getPersonName(id) + "?\n\n1. Identifying information\n2. Immediate family\n3. All known descendants\n4. Next-of-Kin\n5. Enter different name\n6. Back");
     switch (chosenDetails) {
         case "1":
             viewInfo(id, getKeyString, getPersonName, checkIfNull, getIndexFromId, getParents, responder);
@@ -360,20 +359,19 @@ function viewNextofKin(id, responder, getPersonName, getNextOfKin, getDob, getOl
     responder("Next of Kin:", nextOfKin);
 }
 
-function parameterSearch(estimateAge, getIndexFromId, parseCommands, performCommands, getPersonsAge, setAgeRange, hasSameHeight, convertHeight, hasSameWeight, hasSameJob, hasSameEyecolor, getPersonName, responder, initSearch) {
-    var entry = prompt("Please type your search terms, separated by commas:\nYou may search by...\nAge\nAge Range\nHeight\nWeight\nOccupation\nEye color\n\nFollow this example:\nage:50, height:5'7\", weight:110lbs, occupation:assistant, eyecolor:blue");
+function parameterSearch(estimateAge, getIndexFromId, parseCommands, performCommands, getPersonsAge, setAgeRange, hasSameHeight, convertHeight, hasSameWeight, hasSameJob, hasSameEyecolor, getPersonName, responder, searchSelector) {
+    var entry = prompt("Please type your search terms, separated by commas:\nYou may search by...\nAge (age:33)\nAge-Range (age-range:18-34)\nHeight (height:6'2\")\nWeight (weight:230lbs)\nOccupation (occupation:assistant)\nEye color (eyecolor:blue)");
     var specSearch = parseCommands(entry);
     var result = performCommands(specSearch, estimateAge, getIndexFromId, getPersonsAge, setAgeRange, hasSameHeight, convertHeight, hasSameWeight, hasSameJob, hasSameEyecolor);
     result = result.map(result => getIndexFromId(result.id));
     result = result.map(result => getPersonName(result));
     responder("Results", result);
-    initSearch();
+    searchSelector();
 }
 
 function parseCommands(entry) {
     var commands = entry.split(", ");
     var search = [];
-    console.log(commands);
     for (var command in commands) {
         if (commands[command] != "") {
             search.push(commands[command].split(":"));
@@ -391,16 +389,13 @@ function performCommands(search, guessAge, findindex, findPersonAge, makeAgeRang
                 break;
             case "age-range":
                 var agerange = search[criteria][1].split("-");
-                console.log(agerange);
                 results = results.filter(result => makeAgeRange(result, agerange[0], agerange[1], findindex, findPersonAge));
                 break;
             case "height":
-                console.log("wake up Neo");
                 height = parseHeight(search[criteria][1]);
                 results = results.filter(result => checkHeight(result, height));
                 break;
             case "weight":
-                console.log(search[criteria][1].split("lbs")[0]);
                 results = results.filter(result => checkWeight(result, search[criteria][1].split("lbs")[0]));
                 break;
             case "occupation":
@@ -420,15 +415,24 @@ function performCommands(search, guessAge, findindex, findPersonAge, makeAgeRang
 function estimateAge(element, age, findindex, findPersonAge) {
     var id = findindex(element.id);
     var personage = findPersonAge(id);
-    console.log(personage);
     return (personage == age);
 }
 
-function setAgeRange(element, minage, maxage, findindex, findPersonAge) {
+function setAgeRange(element, age1, age2, findindex, findPersonAge) {
     var id = findindex(element.id);
     var personage = findPersonAge(id);
-    console.log(personage);
-    console.log(personage >= minage);
+    console.log("This is age1:"+ age1);
+    console.log("This is age2:"+ age2);
+      if(age1 > age2){
+      var minage = age2;
+      var maxage = age1;
+    }
+    else{
+      var minage = age1;
+      var maxage = age2;
+    }
+    console.log("This is minage:"+ minage);
+    console.log("This is maxage:"+ maxage);
     return (personage >= minage && personage <= maxage);
 }
 
@@ -445,7 +449,6 @@ function convertHeight(height) {
     var feetandinches = height.split("'");
     var feet = feetandinches[0];
     var inches = feetandinches[1].split("\"")[0];
-    console.log("feet" + feet + "inches" + inches);
     return (+(feet * 12) + +inches);
 }
 
