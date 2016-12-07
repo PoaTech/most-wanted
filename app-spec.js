@@ -10,6 +10,15 @@ describe('function convertHeight', function() {
     });
 });
 
+describe('function hasSameWeight', function() {
+    it('has same weight', function() {
+        expect(hasSameWeight(dataObject[19], 110)).toEqual(true);
+    });
+    it('has same weight', function() {
+        expect(hasSameWeight(dataObject[18], 241)).toEqual(true);
+    });
+});
+
 describe('function getDob', function() {
     it('get date of birth', function() {
         expect(getDob(0)).toEqual(new Date(1949, 1, 18));
@@ -47,28 +56,31 @@ describe('function getSiblings', function() {
     it('confirm Joey Madden is an only child', function() {
         expect(getSiblings(21, getParents, getChildren)).toEqual([]);
     });
-    it('confirm Jill Pafoy has a brother', function(){
-      expect(getSiblings(10, getParents, getChildren)).toEqual(['11']);
+    it('confirm Jill Pafoy has a brother', function() {
+        expect(getSiblings(10, getParents, getChildren)).toEqual(['11']);
     });
     it('confirm Hana has a sibling', function() {
         expect(getSiblings(17, getParents, getChildren)).toEqual(['16', '18', '19']);
     });
 });
 
-describe('function getParents', function(){
-  it('confirm that Uma Bob has no known parents', function(){
-    expect(getParents(1)).toEqual([]);
-  });
-  it('confirm that Joey Madden has parents', function(){
-    expect(getParents(21)).toEqual(['19', '20']);
-  });
+describe('function getParents', function() {
+    it('confirm that Uma Bob has no known parents', function() {
+        expect(getParents(1)).toEqual([]);
+    });
+    it('confirm that Joey Madden has parents', function() {
+        expect(getParents(21)).toEqual(['19', '20']);
+    });
 });
 
-/*describe('function estimateAge', function(){
-  it('confirm Mattias Madden is 50', function(){
-    expect(estimateAge(dataObject, 50, getIndexFromId, findPersonAge));
-  });
-});*/
+describe('function estimateAge', function() {
+    it('confirm Mattias Madden is 50', function() {
+        expect(estimateAge(dataObject[19], 50, getIndexFromId, getPersonsAge)).toEqual(true);
+    });
+    it('confirm Mattias Madden is 50', function() {
+        expect(estimateAge(dataObject[1], 69, getIndexFromId, getPersonsAge)).toEqual(true);
+    });
+});
 
 describe('function getDoubleRelation', function() {
     it('confirm grandchildren', function() {
