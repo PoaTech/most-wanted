@@ -1,0 +1,22 @@
+{
+  "name": "most-wanted",
+  "version": "1.0.0",
+  "description": "Testing for most wanted",
+  "main": "app-spec.js",
+  "scripts": {
+    "test": "npm test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/PoaTech/most-wanted.git"
+  },
+  "keywords": [
+    "Poa"
+  ],
+  "author": "Adam",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/PoaTech/most-wanted/issues"
+  },
+  "homepage": "https://github.com/PoaTech/most-wanted#readme"
+}
