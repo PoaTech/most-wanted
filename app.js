@@ -309,18 +309,23 @@ function nameSearchDetails(id, getKeyString, getPersonID, splitName, checkIfNull
     switch (chosenDetails) {
         case "1":
             viewInfo(id, getKeyString, getPersonName, checkIfNull, getIndexFromId, getParents, responder);
+            nameSearchDetails(id, getKeyString, getPersonID, splitName, checkIfNull, getIndexFromId, getParents, getChildren, getSpouse, getSiblings, responder, getPersonName, getNextOfKin, getDob, getOldest, getDoubleRelation, getTripleRelation, personIndex);
             break;
         case "2":
             viewFamily(id, responder, getFamily, getPersonName, getIndexFromId, getChildren, getSpouse, getParents, getSiblings);
+            nameSearchDetails(id, getKeyString, getPersonID, splitName, checkIfNull, getIndexFromId, getParents, getChildren, getSpouse, getSiblings, responder, getPersonName, getNextOfKin, getDob, getOldest, getDoubleRelation, getTripleRelation, personIndex);
             break;
         case "3":
             viewDescendants(id, responder, getPersonName, getDescendants);
+            nameSearchDetails(id, getKeyString, getPersonID, splitName, checkIfNull, getIndexFromId, getParents, getChildren, getSpouse, getSiblings, responder, getPersonName, getNextOfKin, getDob, getOldest, getDoubleRelation, getTripleRelation, personIndex);
             break;
         case "4":
             viewNextofKin(id, responder, getPersonName, getNextOfKin, getDob, getOldest, getChildren, getSpouse, getParents, getSiblings, getDoubleRelation, getTripleRelation, personIndex);
+            nameSearchDetails(id, getKeyString, getPersonID, splitName, checkIfNull, getIndexFromId, getParents, getChildren, getSpouse, getSiblings, responder, getPersonName, getNextOfKin, getDob, getOldest, getDoubleRelation, getTripleRelation, personIndex);
             break;
         case "5":
             nameSearch(getKeyString, getPersonID, splitName, checkIfNull, getIndexFromId, getParents, getChildren, getSpouse, getSiblings, responder, getPersonName, getNextOfKin, getDob, getOldest, getDoubleRelation, getTripleRelation, personIndex);
+            nameSearchDetails(id, getKeyString, getPersonID, splitName, checkIfNull, getIndexFromId, getParents, getChildren, getSpouse, getSiblings, responder, getPersonName, getNextOfKin, getDob, getOldest, getDoubleRelation, getTripleRelation, personIndex);
             break;
         case "6":
             searchSelector();
@@ -329,7 +334,6 @@ function nameSearchDetails(id, getKeyString, getPersonID, splitName, checkIfNull
             alert("Invalid selection, choose again");
             nameSearchDetails(id, getKeyString, getPersonID, splitName, checkIfNull, getIndexFromId, getParents, getChildren, getSpouse, getSiblings, responder, getPersonName, getNextOfKin, getDob, getOldest, getDoubleRelation, getTripleRelation, personIndex);
     }
-    nameSearchDetails(id, getKeyString, getPersonID, splitName, checkIfNull, getIndexFromId, getParents, getChildren, getSpouse, getSiblings, responder, getPersonName, getNextOfKin, getDob, getOldest, getDoubleRelation, getTripleRelation, personIndex);
 }
 
 function viewInfo(id, getKeyString, getPersonName, checkIfNull, getIndexFromId, getParents, responder) {
