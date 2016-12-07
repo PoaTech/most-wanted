@@ -459,6 +459,7 @@ function hasSameJob(element, occupation) {
 }
 
 function responder(title, info) {
+
     alert(title + "\n\n" + info.join("\n"));
 }
 
@@ -487,6 +488,7 @@ function getPersonName(id) {
 function getInfo(id, keyName, personName, checkNull, personIndex, findParents) {
     var personInfo = [];
     var data;
+
     for (var key in dataObject[id]) {
         if (key == "parents") {
             var parents = findParents(id);
@@ -575,24 +577,29 @@ function getFamily(id, personName, personIndex, findChildren, findSpouse, findPa
     var spouse = findSpouse(id, personIndex);
     var parents = findParents(id);
     var siblings = findSiblings(id, findParents);
+
     if (children != null) {
         for (var child in children) {
             family.push(children[child]);
         }
     }
+
     if (spouse != null) {
         family.push(spouse);
     }
+
     if (parents != null) {
         for (var parent in parents) {
             family.push(parents[parent]);
         }
     }
+
     if (siblings != null) {
         for (var sibling in siblings) {
             family.push(siblings[sibling]);
         }
     }
+
     return family.map(personName);
 }
 
@@ -704,83 +711,26 @@ function getTripleRelation(id, findFirstRelation, findSecondRelation, findThirdR
 
 function getNextOfKin(id, findDOB, findOldest, findChildren, findSpouse, findParents, findSiblings, findDoubleRelation, findTripleRelation, personIndex) {
     var oldest;
-    var nextOfKin = findSpouse(id, personIndex);
-    if (nextOfKin != null) {
-        return nextOfKin;
-    }
+    var relations = [];
+    relations.push(findSpouse(id, personIndex));
+    relations.push(findChildren(id));
+    relations.push(findParents(id));
+    relations.push(findSiblings(id, findParents, findChildren));
+    relations.push(findDoubleRelation(id, findChildren, findChildren));
+    relations.push(findDoubleRelation(id, findParents, findParents));
+    relations.push(getSiblingChildren(id, findSiblings, findChildren, findParents));
+    relations.push(findDoubleRelation(id, findParents, findSiblings));
+    relations.push(findTripleRelation(id, findChildren, findChildren, findChildren));
+    relations.push(findTripleRelation(id, findParents, findParents, findParents));
 
-    nextOfKin = findChildren(id);
-    if (nextOfKin != null && nextOfKin.length != 0) {
-        oldest = findOldest(nextOfKin, findDOB);
-        if (oldest != undefined) {
-            return oldest;
+    for (relation in relations) {
+        if (relations[relation] != null && relations[relation].length != 0) {
+            oldest = findOldest(relations[relation], findDOB);
+            if (oldest != undefined) {
+                return oldest;
+            }
         }
     }
-
-    nextOfKin = findParents(id);
-    if (nextOfKin != null && nextOfKin.length != 0) {
-        oldest = findOldest(nextOfKin, findDOB);
-        if (oldest != undefined) {
-            return oldest;
-        }
-    }
-
-    nextOfKin = findSiblings(id, findParents, findChildren);
-    if (nextOfKin != null && nextOfKin.length != 0) {
-        oldest = findOldest(nextOfKin, findDOB);
-        if (oldest != undefined) {
-            return oldest;
-        }
-    }
-
-    nextOfKin = findDoubleRelation(id, findChildren, findChildren);
-    if (nextOfKin != null && nextOfKin.length != 0) {
-        oldest = findOldest(nextOfKin, findDOB);
-        if (oldest != undefined) {
-            return oldest;
-        }
-    }
-
-    nextOfKin = findDoubleRelation(id, findParents, findParents);
-    if (nextOfKin != null && nextOfKin.length != 0) {
-        oldest = findOldest(nextOfKin, findDOB);
-        if (oldest != undefined) {
-            return oldest;
-        }
-    }
-
-    nextOfKin = getSiblingChildren(id, findSiblings, findChildren, findParents);
-    if (nextOfKin != null && nextOfKin.length != 0) {
-        oldest = findOldest(nextOfKin, findDOB);
-        if (oldest != undefined) {
-            return oldest;
-        }
-    }
-
-    nextOfKin = findDoubleRelation(id, findParents, findSiblings);
-    if (nextOfKin != null && nextOfKin.length != 0) {
-        oldest = findOldest(nextOfKin, findDOB);
-        if (oldest != undefined) {
-            return oldest;
-        }
-    }
-
-    nextOfKin = findTripleRelation(id, findChildren, findChildren, findChildren);
-    if (nextOfKin != null && nextOfKin.length != 0) {
-        oldest = findOldest(nextOfKin, findDOB);
-        if (oldest != undefined) {
-            return oldest;
-        }
-    }
-
-    nextOfKin = findTripleRelation(id, findParents, findParents, findParents);
-    if (nextOfKin != null && nextOfKin.length != 0) {
-        oldest = findOldest(nextOfKin, findDOB);
-        if (oldest != undefined) {
-            return oldest;
-        }
-    }
-
     return null;
 }
 
@@ -816,4 +766,4 @@ function getDob(id) {
     return birthdate;
 }
 
-searchSelector();
+initSearch();
