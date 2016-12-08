@@ -130,7 +130,7 @@ describe('function getTripleRelation', function(){
   it('confirm absence of great grandchildren', function(){
     expect(getTripleRelation(9, getChildren, getChildren, getChildren)).toEqual([]);
   });
-  it('confimr absence of great grandchildren', function(){
+  it('confirm absence of great grandchildren', function(){
     expect(getTripleRelation(8, getChildren, getChildren, getChildren)).toEqual([]);
   });
 });
