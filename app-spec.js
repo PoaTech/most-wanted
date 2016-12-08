@@ -112,6 +112,12 @@ describe('function getSpouse', function(){
   });
 });
 
+describe('function getIndexFromId', function(){
+  it('confirm the ability to correctly identify a person by their id', function(){
+    expect(getIndexFromId("313998000")).toEqual('21');
+  });
+});
+
 describe('function getParents', function() {
     it('confirm that Uma Bob has no known parents', function() {
         expect(getParents(1)).toEqual([]);
