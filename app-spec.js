@@ -43,6 +43,12 @@ describe('function getPersonName', function(){
   });
 });
 
+describe('function getInfo', function(){
+  it('confirm the ability to accurately pull a subjects information', function(){
+    expect(getInfo(21, getKeyString, getPersonName, checkIfNull, getIndexFromId, getParents)).toEqual(['SSN: 313998000', 'First Name: Joey', 'Last Name: Madden', 'Gender: female', 'Date of Birth: 2/02/1987', 'Height: 67', 'Weight: 100', 'Eye Color: blue', 'Occupation: doctor', 'Parents: Mattias Madden, Ellen Madden', 'Current Spouse: None']);
+  });
+});
+
 describe('function getDob', function() {
     it('get date of birth', function() {
         expect(getDob(0)).toEqual(new Date(1949, 1, 18));
