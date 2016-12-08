@@ -106,6 +106,12 @@ describe('function getSiblings', function() {
     });
 });
 
+describe('function getSpouse', function(){
+  it('confirm Mattias Madden is married to Ellen Madden', function(){
+    expect(getSpouse(19, getIndexFromId)).toEqual('20');
+  });
+});
+
 describe('function getParents', function() {
     it('confirm that Uma Bob has no known parents', function() {
         expect(getParents(1)).toEqual([]);
