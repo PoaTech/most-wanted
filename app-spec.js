@@ -25,6 +25,12 @@ describe('function hasSameEyecolor', function(){
   });
 });
 
+describe('function hasSameJob', function(){
+  it('confirm Joey Madden is a doctor', function(){
+    expect(hasSameJob(dataObject[21], "doctor")).toEqual(true);
+  });
+});
+
 describe('function getDob', function() {
     it('get date of birth', function() {
         expect(getDob(0)).toEqual(new Date(1949, 1, 18));
