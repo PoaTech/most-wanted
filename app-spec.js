@@ -19,6 +19,12 @@ describe('function hasSameWeight', function() {
     });
 });
 
+describe('function hasSameEyecolor', function(){
+  it('confirm Joey Madden has blue eyes', function(){
+    expect(hasSameEyecolor(dataObject[21], "blue")).toEqual(true);
+  });
+});
+
 describe('function getDob', function() {
     it('get date of birth', function() {
         expect(getDob(0)).toEqual(new Date(1949, 1, 18));
