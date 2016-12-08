@@ -31,6 +31,12 @@ describe('function hasSameJob', function(){
   });
 });
 
+describe('function splitName', function(){
+  it('confirm the ability to properly split a name', function(){
+    expect(splitName("Joey Madden")).toEqual(['Joey', 'Madden']);
+  });
+});
+
 describe('function getDob', function() {
     it('get date of birth', function() {
         expect(getDob(0)).toEqual(new Date(1949, 1, 18));
