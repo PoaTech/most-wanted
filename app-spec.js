@@ -119,7 +119,7 @@ describe('function estimateAge', function() {
     it('confirm Mattias Madden is 50', function() {
         expect(estimateAge(dataObject[19], 50, getIndexFromId, getPersonsAge)).toEqual(true);
     });
-    it('confirm Mattias Madden is 50', function() {
+    it('confirm Uma Bob is 69', function() {
         expect(estimateAge(dataObject[1], 69, getIndexFromId, getPersonsAge)).toEqual(true);
     });
 });
