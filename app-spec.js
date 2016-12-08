@@ -37,6 +37,12 @@ describe('function splitName', function(){
   });
 });
 
+describe('function getPersonName', function(){
+  it('confirm the ability to properly retrieve a name', function(){
+    expect(getPersonName(21)).toEqual("Joey Madden");
+  });
+});
+
 describe('function getDob', function() {
     it('get date of birth', function() {
         expect(getDob(0)).toEqual(new Date(1949, 1, 18));
