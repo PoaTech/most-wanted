@@ -88,6 +88,12 @@ describe('function getChildren', function() {
     });
 });
 
+describe('function getKeyString', function(){
+  it('confirm the ability to correctly return the desired descriptor to the user', function(){
+    expect(getKeyString("id")).toEqual("SSN");
+  });
+});
+
 describe('function getSiblings', function() {
     it('confirm Joey Madden is an only child', function() {
         expect(getSiblings(21, getParents, getChildren)).toEqual([]);
