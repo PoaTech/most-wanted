@@ -49,6 +49,12 @@ describe('function getInfo', function(){
   });
 });
 
+describe('function checkIfNull', function(){
+  it('confirm the absence of anything', function(){
+    expect(checkIfNull(null)).toEqual("None");
+  });
+});
+
 describe('function getDob', function() {
     it('get date of birth', function() {
         expect(getDob(0)).toEqual(new Date(1949, 1, 18));
