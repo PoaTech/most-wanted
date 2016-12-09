@@ -112,6 +112,16 @@ describe('function getSpouse', function(){
   });
 });
 
+describe('function getDescendants', function(){
+  var totalDescendants;
+  beforeEach(function(){
+    totalDescendants = [];
+});
+  it('confirm Joey Madden is Mattias Madden\'s only descendant', function(){
+    expect(getDescendants(19, getPersonName, totalDescendants)).toEqual(['Joey Madden']);
+  });
+});
+
 describe('function getIndexFromId', function(){
   it('confirm the ability to correctly identify a person by their id', function(){
     expect(getIndexFromId("313998000")).toEqual('21');
