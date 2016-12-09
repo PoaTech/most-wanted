@@ -363,7 +363,7 @@ function viewNextofKin(id, responder, getPersonName, getNextOfKin, getDob, getOl
 }
 
 function parameterSearch(estimateAge, getIndexFromId, parseCommands, performCommands, getPersonsAge, setAgeRange, hasSameHeight, convertHeight, hasSameWeight, hasSameJob, hasSameEyecolor, getPersonName, responder, searchSelector) {
-    var entry = prompt("Please type your search terms, separated by commas:\nYou may search by...\nAge (age:33)\nAge-Range (age-range:18-34)\nHeight (height:6'2\")\nWeight (weight:230lbs)\nOccupation (occupation:assistant)\nEye color (eyecolor:blue)");
+    var entry = prompt("Please type your search terms, separated by commas:\nYou may search by...\nAge (age:33)\nAge-Range (age-range:18-34)\nHeight (height:6'2\")\nWeight (weight:230lbs)\nOccupation (occupation:assistant)\nEye color (eyecolor:blue)\n\nIf you want to see a list of the names of all subjects, leave the search box empty and press enter.");
     var specSearch = parseCommands(entry);
     var result = performCommands(specSearch, estimateAge, getIndexFromId, getPersonsAge, setAgeRange, hasSameHeight, convertHeight, hasSameWeight, hasSameJob, hasSameEyecolor);
     result = result.map(result => getIndexFromId(result.id));
