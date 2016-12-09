@@ -408,7 +408,7 @@ function performCommands(search, guessAge, findindex, findPersonAge, makeAgeRang
                 results = results.filter(result => checkEyeColor(result, search[criteria][1]));
                 break;
             default:
-                alert("Error: " + search[criteria][0] + " is not a valid search criteria and will be excluded from search.");
+                alert("Error: " + search[criteria][0] + " is not a valid search criterion and will be excluded from search.");
                 break;
         }
     }
